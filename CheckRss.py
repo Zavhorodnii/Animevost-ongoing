@@ -77,4 +77,4 @@ class CheckRss:
                         text=F"Новый эпизод\n\t\n\t{elem['title']}\n\t\n\t{elem['link']}",
                     )
 
-            sleep(10)
+            sleep(300)
