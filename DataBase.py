@@ -48,26 +48,23 @@ class DataBase:
 
         self.__add_anime_to_db = "insert into links (chat_id, title, link) values (%s, %s, %s);"
 
-        # self.__select_all_settings = "select * from settings"
         self.__add_settings = "INSERT INTO settings (chat_id, films_in_one_pagination) " \
                               "VALUES (%s, %s)"
         self.__update_settings = "UPDATE settings SET films_in_one_pagination = %s" \
                                  "WHERE chat_id = %s"
-        # self.__update__messages = "UPDATE settings SET last_messages = %s, last_pagination = %s WHERE chat_id = %s"
-        # self.__update__remind = "UPDATE settings SET last_remind_messages = %s, last_remind_pagination = %s WHERE chat_id = %s"
 
     def create_connection(self):
         return psycopg2.connect(
-            host='localhost',
-            user='postgres',
-            password='root',
-            database='animevost_ongoing',
+            # host='localhost',
+            # user='postgres',
+            # password='root',
+            # database='animevost_ongoing',
 
 
-            # host='ec2-52-214-178-113.eu-west-1.compute.amazonaws.com',
-            # user='zssfdeolsemtwd',
-            # password='4e20ee578e8de31f860f24b8dbf50794570a3406eed476176e832bf3e716c10b',
-            # database='d1gfne76rujlqo',
+            host='ec2-34-247-118-233.eu-west-1.compute.amazonaws.com',
+            user='hvejqpqzrumwyo',
+            password='fd9841f6c53434dc198ea2674513220f1416ed8dd0dd2e6b4fd6dcf331039924',
+            database='dahcerblp8dptl',
         )
 
     def check_or_create_db(self):
@@ -140,33 +137,6 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__add_anime_to_db, (chat_id, title, link))
             __my_db_connector.commit()
-
-# =======
-#     def select_all_chat_settings(self):
-#         __my_db_connector = self.create_connection()
-#         with __my_db_connector:
-#             __con = __my_db_connector.cursor()
-#             __con.execute(self.__select_all_settings)
-#             all = __con.fetchall()
-#             __con.close()
-#         return all
-#
-#
-#
-#     def add_remind(self, last_remind_messages, last_remind_pagination, chat_id):
-#         in_table = self.select_chat_settings(chat_id)
-#         if len(in_table) == 0:
-#             return
-#
-#         __my_db_connector = self.create_connection()
-#         with __my_db_connector:
-#             __con = __my_db_connector.cursor()
-#             __con.execute(self.__update__remind, (';'.join(map(str, last_remind_messages)),
-#                                                   str(last_remind_pagination),
-#                                                   str(chat_id)))
-#             __my_db_connector.commit()
-
-# ==========
 
     def settings_update_mess_ids(self, chat_id, __message_pagination_ids, __pagination_pages):
         in_table = self.select_chat_settings(chat_id)
