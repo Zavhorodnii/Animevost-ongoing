@@ -1,7 +1,4 @@
 import logging
-
-import telegram
-
 import CheckRss
 import DeleteAnime
 import Start
@@ -23,7 +20,6 @@ ALL, ADD_TITLE, ADD_LINK, SETTINGS_CHECK_PAGINATION = range(4)
 
 class WatchingFilms:
     def __init__(self):
-        self.__url_get_rss = 'https://animevost.org/rss.xml'
         self.__start = Start.Start()
         self.__settings = Settings.Settings()
         self.__delete_anime = DeleteAnime.DeleteAnime()

@@ -1,9 +1,5 @@
 import math
-from time import sleep
-
 import DataBase
-
-import requests as requests
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
