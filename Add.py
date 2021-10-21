@@ -24,7 +24,7 @@ class Add:
 
         context.bot.send_message(
             update.effective_chat.id,
-            text=f"Тайтл добавлено",
+            text=f"Тайтл добавлен",
             reply_markup=ReplyKeyboardMarkup(self.__control_keyboard, resize_keyboard=True, one_time_keyboard=False)
         )
 
