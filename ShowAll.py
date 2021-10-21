@@ -37,7 +37,7 @@ class ShowAll:
             ], ]
             message = context.bot.send_message(
                 update.effective_chat.id,
-                text=F"{item[3]}\n\t\n\t{item[2]}",
+                text=F"{item[2]}",
                 reply_markup=InlineKeyboardMarkup(keyboard)
             )
             __message_pagination_ids.append(str(message.message_id))

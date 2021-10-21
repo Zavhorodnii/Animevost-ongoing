@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-ALL, ADD_TITLE, ADD_LINK, SETTINGS_CHECK_PAGINATION = range(4)
+ALL, ADD_LINK, SETTINGS_CHECK_PAGINATION = range(3)
 
 
 class WatchingFilms:
@@ -42,10 +42,6 @@ class WatchingFilms:
 
     def add(self, update, context):
         self.__add.add(update, context)
-        return ADD_TITLE
-
-    def enter_title(self, update, context):
-        self.__add.add_title(update, context)
         return ADD_LINK
 
     def enter_link(self, update, context):
@@ -97,11 +93,6 @@ class WatchingFilms:
                     MessageHandler(Filters.regex('Добавить аниме'), self.add),
                     CallbackQueryHandler(self.delete_anime, pass_user_data=True, pattern="anime/"),
                     CallbackQueryHandler(self.show_pagination_page, pass_user_data=True, pattern="page/"),
-                    # CallbackQueryHandler(self.reminder_pagination, pass_user_data=True, pattern="remind/"),
-                ],
-                ADD_TITLE: [
-                    MessageHandler(Filters.regex('Отмена'), self.cancel_add),
-                    MessageHandler(Filters.text, self.enter_title),
                 ],
                 ADD_LINK: [
                     MessageHandler(Filters.regex('Отмена'), self.cancel_add),

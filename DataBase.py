@@ -23,8 +23,7 @@ class DataBase:
         self.__create_db_table_links = "CREATE TABLE IF NOT EXISTS links(" \
                                       "id SERIAL, " \
                                       "chat_id VARCHAR(100), " \
-                                      "link TEXT, " \
-                                      "title TEXT )"
+                                      "link TEXT )"
 
         self.__create_db_table_last_anime = "CREATE TABLE IF NOT EXISTS last_anime( " \
                                             "id SERIAL, " \
@@ -46,7 +45,7 @@ class DataBase:
         self.__insert_first_row = "insert into last_anime (last_anime_in_rss) values ('')"
         self.__count_last_anime = "select count(last_anime_in_rss) from last_anime"
 
-        self.__add_anime_to_db = "insert into links (chat_id, title, link) values (%s, %s, %s);"
+        self.__add_anime_to_db = "insert into links (chat_id, link) values (%s, %s);"
 
         self.__add_settings = "INSERT INTO settings (chat_id, films_in_one_pagination) " \
                               "VALUES (%s, %s)"
@@ -131,11 +130,11 @@ class DataBase:
             __con.close()
         return all
 
-    def add_anime_to_db(self, chat_id, title, link):
+    def add_anime_to_db(self, chat_id, link):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__add_anime_to_db, (chat_id, title, link))
+            __con.execute(self.__add_anime_to_db, (chat_id, link))
             __my_db_connector.commit()
 
     def settings_update_mess_ids(self, chat_id, __message_pagination_ids, __pagination_pages):
