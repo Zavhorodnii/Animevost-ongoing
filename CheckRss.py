@@ -74,7 +74,7 @@ class CheckRss:
                 for chat_id in all_chats:
                     message = self.context.bot.send_message(
                         chat_id[0],
-                        text=F"Новый эпизод\n\t\n\t{elem['title']}\n\t\n\t{elem['link']}",
+                        text=F"Новый эпизод\n\n{elem['title']}\n\n{elem['link']}",
                     )
 
             sleep(300)
