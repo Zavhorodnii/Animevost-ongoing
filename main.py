@@ -112,4 +112,4 @@ if __name__ == '__main__':
     check_rss = CheckRss.CheckRss()
     check_rss.start_thread()
     # print('main function')
-    # watchingFilms.main()
+    watchingFilms.main()
