@@ -18,19 +18,20 @@ class CheckRss:
         self.dispatcher = updater.dispatcher
         self.context = telegram.ext.callbackcontext.CallbackContext(self.dispatcher)
         self.rss_url = 'https://animevost.org/rss.xml'
-        self.anime_rss_last_anime = []
+        self.anime_rss_last_anime = ''
         self.__database = DataBase.DataBase()
+        # self.__database.clear_last_anime()
 
     def start_thread(self):
         thread = Thread(target=self.chek_rss, args=())
         thread.start()
 
     def update_last_anime(self, dict_data, index):
-        self.anime_rss_last_anime.clear()
-        self.anime_rss_last_anime.append(dict_data['rss']['channel']['item'][index]['title'])
+        self.anime_rss_last_anime = ''
+        # self.anime_rss_last_anime.append(dict_data['rss']['channel']['item'][index]['title'])
         parsed = urllib.parse.urlparse(dict_data['rss']['channel']['item'][index]['link'])
         replaced = parsed._replace(netloc="animevost.org")
-        self.anime_rss_last_anime.append(urllib.parse.urlunparse(replaced))
+        self.anime_rss_last_anime = urllib.parse.urlunparse(replaced)
 
     def chek_rss(self):
         while True:
@@ -46,11 +47,13 @@ class CheckRss:
             if len(self.anime_rss_last_anime) == 0:
                 last_rss = self.__database.get_last_anime()[0][0]
                 if len(last_rss) > 0:
-                    self.anime_rss_last_anime = last_rss.split(';')
+                    self.anime_rss_last_anime = last_rss
                 else:
                     self.update_last_anime(dict_data, len(dict_data['rss']['channel']['item']) - 1)
-                    self.__database.update_last_anime(';'.join(self.anime_rss_last_anime))
+                    self.__database.update_last_anime(self.anime_rss_last_anime)
                 continue
+
+            # print(f"self.anime_rss_last_anime = {self.anime_rss_last_anime}")
 
             for elem in dict_data['rss']['channel']['item']:
                 parsed = urllib.parse.urlparse(elem['link'])
@@ -59,14 +62,14 @@ class CheckRss:
 
                 in_anime_dict = False
 
-                if elem['link'] in self.anime_rss_last_anime and elem['title'] in self.anime_rss_last_anime:
+                if elem['link'] == self.anime_rss_last_anime:
                     # print(f"in_anime_dict link = { elem['link']}, title = {elem['title']}")
                     in_anime_dict = True
 
                 if in_anime_dict:
-                    if dict_data['rss']['channel']['item'][0]['link'] not in self.anime_rss_last_anime or dict_data['rss']['channel']['item'][0]['title'] not in self.anime_rss_last_anime:
+                    if dict_data['rss']['channel']['item'][0]['link'] != self.anime_rss_last_anime:
                         self.update_last_anime(dict_data, 0)
-                        self.__database.update_last_anime(';'.join(self.anime_rss_last_anime))
+                        self.__database.update_last_anime(self.anime_rss_last_anime)
                     break
 
                 all_chats = self.__database.get_all_chat_with_anime(elem['link'])
@@ -76,5 +79,10 @@ class CheckRss:
                         chat_id[0],
                         text=F"Новый эпизод\n\n{elem['title']}\n\n{elem['link']}",
                     )
+
+                if dict_data['rss']['channel']['item'][len(dict_data['rss']['channel']['item']) - 1]['link'] == elem['link']:
+                    if dict_data['rss']['channel']['item'][0]['link'] != self.anime_rss_last_anime:
+                        self.update_last_anime(dict_data, 0)
+                        self.__database.update_last_anime(self.anime_rss_last_anime)
 
             sleep(300)

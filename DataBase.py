@@ -43,6 +43,7 @@ class DataBase:
         self.__update_last_anime = "update last_anime set last_anime_in_rss = %s where id = '1'"
         self.__get_last_anime = "SELECT last_anime_in_rss from last_anime"
         self.__insert_first_row = "insert into last_anime (last_anime_in_rss) values ('')"
+        self.__clear_last_anime = "update last_anime set last_anime_in_rss = '' where id = '1'"
         self.__count_last_anime = "select count(last_anime_in_rss) from last_anime"
 
         self.__add_anime_to_db = "insert into links (chat_id, link) values (%s, %s);"
@@ -198,3 +199,10 @@ class DataBase:
             all = __con.fetchall()
             __con.close()
         return all
+
+    def clear_last_anime(self):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__clear_last_anime,)
+            __my_db_connector.commit()
