@@ -1,6 +1,6 @@
 # import pymysql as pymysql
 import psycopg2
-
+import os
 
 class DataBase:
     def __init__(self):
