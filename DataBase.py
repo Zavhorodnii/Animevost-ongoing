@@ -61,10 +61,16 @@ class DataBase:
             # database='animevost_ongoing',
 
 
-            host='ec2-34-247-118-233.eu-west-1.compute.amazonaws.com',
-            user='hvejqpqzrumwyo',
-            password='fd9841f6c53434dc198ea2674513220f1416ed8dd0dd2e6b4fd6dcf331039924',
-            database='dahcerblp8dptl',
+            #host='ec2-34-247-118-233.eu-west-1.compute.amazonaws.com',
+            #user='hvejqpqzrumwyo',
+            #password='fd9841f6c53434dc198ea2674513220f1416ed8dd0dd2e6b4fd6dcf331039924',
+            #database='dahcerblp8dptl',
+            
+            
+            host=os.getenv('HOST', default=None),
+            user=os.getenv('USER', default=None),
+            password=os.getenv('PASSWORD', default=None),
+            database=os.getenv('DATABASE', default=None),
         )
 
     def check_or_create_db(self):
