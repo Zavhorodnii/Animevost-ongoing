@@ -36,6 +36,10 @@ class WatchingFilms:
         self.__start.start(update, context)
         return SETTINGS_CHECK_PAGINATION
 
+    def second_start(self, update, context):
+        self.__start.second_start(update, context)
+        return SETTINGS_CHECK_PAGINATION
+
     def setting_check_pagination(self, update, context):
         self.__settings.settings_ready(update, context)
         return ALL
@@ -89,6 +93,8 @@ class WatchingFilms:
                                    self.setting_check_pagination)
                 ],
                 ALL: [
+                    # CommandHandler('start', self.start),
+                    CommandHandler('start', self.second_start),
                     MessageHandler(Filters.regex('Просмотреть список'), self.show_all),
                     MessageHandler(Filters.regex('Добавить аниме'), self.add),
                     CallbackQueryHandler(self.delete_anime, pass_user_data=True, pattern="anime/"),
@@ -111,5 +117,4 @@ if __name__ == '__main__':
     watchingFilms = WatchingFilms()
     check_rss = CheckRss.CheckRss()
     check_rss.start_thread()
-    # print('main function')
     watchingFilms.main()

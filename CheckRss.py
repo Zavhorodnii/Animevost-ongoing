@@ -42,7 +42,8 @@ class CheckRss:
                 dict_data = xmltodict.parse(response.content)
             except Exception as exe:
                 sleep(10)
-                self.chek_rss()
+                # self.chek_rss()
+                continue
 
             if len(self.anime_rss_last_anime) == 0:
                 last_rss = self.__database.get_last_anime()[0][0]

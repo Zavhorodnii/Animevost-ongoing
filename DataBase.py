@@ -61,10 +61,10 @@ class DataBase:
             # database='animevost_ongoing',
 
 
-            host='ec2-34-247-118-233.eu-west-1.compute.amazonaws.com',
-            user='hvejqpqzrumwyo',
-            password='fd9841f6c53434dc198ea2674513220f1416ed8dd0dd2e6b4fd6dcf331039924',
-            database='dahcerblp8dptl',
+            host='185.203.116.81',
+            user='anime_bot',
+            password='postgress_access',
+            database='anime_bot',
         )
 
     def check_or_create_db(self):

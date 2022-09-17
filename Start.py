@@ -12,3 +12,14 @@ class Start:
             text="Начнем с пагинации\n\n"
                  "Введите число, которое будет является количеством аниме на одной странице",
         )
+
+    def second_start(self, update, context):
+        context.bot.send_message(
+            update.effective_chat.id,
+            text="С возвращением!",
+        )
+        context.bot.send_message(
+            update.effective_chat.id,
+            text="Повторная настройка пагинации\n\n"
+                 "Введите число, которое будет является количеством аниме на одной странице",
+        )
