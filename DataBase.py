@@ -1,6 +1,6 @@
 # import pymysql as pymysql
 import psycopg2
-
+import os
 
 class DataBase:
     def __init__(self):
@@ -60,11 +60,10 @@ class DataBase:
             # password='root',
             # database='animevost_ongoing',
 
-
-            host='185.203.116.81',
-            user='anime_bot',
-            password='postgress_access',
-            database='anime_bot',
+            host=os.getenv('HOST', default=None),
+            user=os.getenv('USER', default=None),
+            password=os.getenv('PASSWORD', default=None),
+            database=os.getenv('DATABASE', default=None),
         )
 
     def check_or_create_db(self):
