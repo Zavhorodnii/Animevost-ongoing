@@ -61,6 +61,14 @@ class DataBase:
         self.__update_settings = "UPDATE settings SET films_in_one_pagination = %s" \
                                  "WHERE chat_id = %s"
 
+        self.__get_bot_settings = "SELECT * from bot_settings"
+
+        self.__add_bot_settings = "INSERT INTO bot_settings (key, value) " \
+                                  "VALUES (%s, %s)"
+
+        self.__update_bot_settings = "UPDATE bot_settings SET value = %s " \
+                                     "WHERE key = %s"
+
     def create_connection(self):
         return psycopg2.connect(
             # host='localhost',
@@ -222,3 +230,28 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__clear_last_anime,)
             __my_db_connector.commit()
+
+    def load_bot_settings(self):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__get_bot_settings)
+            __my_db_connector.commit()
+            all = __con.fetchall()
+            __con.close()
+        return all
+
+    def update_bot_setting(self, key, value):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__update_bot_settings, key, value)
+            __my_db_connector.commit()
+
+    def add_bot_setting(self, key, value):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__add_bot_settings, key, value)
+            __my_db_connector.commit()
+            
