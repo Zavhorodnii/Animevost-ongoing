@@ -29,6 +29,10 @@ class DataBase:
                                             "id SERIAL, " \
                                             "last_anime_in_rss TEXT)"
 
+        self.__create_db_table_anime_download = "CREATE TABLE IF NOT EXISTS anime_download( " \
+                                                "link TEXT NOT NULL," \
+                                                "message_id BIGINT NOT NULL)"
+
         self.__select_settings = "select * from settings where chat_id = %s;"
 
         self.__get_paged_anime = "SELECT * FROM links WHERE chat_id = %s order by id DESC LIMIT %s OFFSET %s;"
@@ -72,25 +76,29 @@ class DataBase:
             __cur = __my_db_connector.cursor()
             __cur.execute(self.__create_db_table_settings)
             __cur.close()
-        __my_db_connector = self.create_connection()
+
         with __my_db_connector:
             __cur = __my_db_connector.cursor()
             __cur.execute(self.__create_db_table_links)
             __cur.close()
-        __my_db_connector = self.create_connection()
+
         with __my_db_connector:
             __cur = __my_db_connector.cursor()
             __cur.execute(self.__create_db_table_last_anime)
             __cur.close()
 
-        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __cur = __my_db_connector.cursor()
+            __cur.execute(self.__create_db_table_anime_download)
+            __cur.close()
+
         with __my_db_connector:
             __con = __my_db_connector.cursor()
             __con.execute(self.__count_last_anime, )
             all = __con.fetchall()
             __con.close()
+
         if int(all[0][0]) == 0:
-            __my_db_connector = self.create_connection()
             with __my_db_connector:
                 __cur = __my_db_connector.cursor()
                 __cur.execute(self.__insert_first_row)
