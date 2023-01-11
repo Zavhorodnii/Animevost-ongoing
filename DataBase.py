@@ -33,6 +33,10 @@ class DataBase:
                                                 "link TEXT NOT NULL," \
                                                 "message_id BIGINT NOT NULL)"
 
+        self.__create_db_table_bot_settings = "CREATE TABLE IF NOT EXISTS bot_settings( " \
+                                              "key VARCHAR(100) NOT NULL," \
+                                              "value VARCHAR(100) NOT NULL)"
+
         self.__select_settings = "select * from settings where chat_id = %s;"
 
         self.__get_paged_anime = "SELECT * FROM links WHERE chat_id = %s order by id DESC LIMIT %s OFFSET %s;"
@@ -85,6 +89,11 @@ class DataBase:
         with __my_db_connector:
             __cur = __my_db_connector.cursor()
             __cur.execute(self.__create_db_table_last_anime)
+            __cur.close()
+
+        with __my_db_connector:
+            __cur = __my_db_connector.cursor()
+            __cur.execute(self.__create_db_table_bot_settings)
             __cur.close()
 
         with __my_db_connector:
