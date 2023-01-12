@@ -35,7 +35,7 @@ class DataBase:
 
         self.__create_db_table_series = "CREATE TABLE IF NOT EXISTS series( " \
                                         "link TEXT NOT NULL," \
-                                        "name TEXT NOT NUL)"
+                                        "name TEXT NOT NULL)"
 
         self.__create_db_table_bot_settings = "CREATE TABLE IF NOT EXISTS bot_settings( " \
                                               "key VARCHAR(100) NOT NULL," \
