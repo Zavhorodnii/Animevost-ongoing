@@ -1,6 +1,7 @@
 import telegram
 import xmltodict as xmltodict
 from telegram.ext import Updater
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import urllib.parse
 
 import DataBase
@@ -10,6 +11,7 @@ from time import sleep
 import requests
 
 import SecretInfo
+import Downloader
 
 
 class CheckRss:
@@ -74,14 +76,23 @@ class CheckRss:
 
                 all_chats = self.__database.get_all_chat_with_anime(elem['link'])
                 # print(f"send to chat = {all_chats}")
-                for chat_id in all_chats:
-                    try:
-                        message = self.context.bot.send_message(
-                            chat_id[0],
-                            text=F"Новый эпизод\n\n{elem['title']}\n\n{elem['link']}",
-                        )
-                    except Exception as exe:
-                        continue
+                if len(all_chats) > 0:
+
+                    dlink = Downloader.parse_last(elem['link'])
+
+                    keyboard = [[
+                        InlineKeyboardButton('Скачать - ' + dlink['title'], callback_data=f"download/{dlink['link']}"),
+                    ], ]
+
+                    for chat_id in all_chats:
+                        try:
+                            message = self.context.bot.send_message(
+                                chat_id[0],
+                                text=F"Новый эпизод\n\n{elem['title']}\n\n{elem['link']}",
+                                reply_markup=InlineKeyboardMarkup(keyboard)
+                            )
+                        except Exception as exe:
+                            continue
 
                 if dict_data['rss']['channel']['item'][len(dict_data['rss']['channel']['item']) - 1]['link'] == elem['link']:
                     if dict_data['rss']['channel']['item'][0]['link'] != self.anime_rss_last_anime:

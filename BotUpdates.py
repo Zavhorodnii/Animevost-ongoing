@@ -1,5 +1,6 @@
 import BotSettings
 import DataBase
+import SecretInfo
 import telegram
 from telegram.ext import Updater
 

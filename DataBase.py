@@ -31,7 +31,11 @@ class DataBase:
 
         self.__create_db_table_anime_download = "CREATE TABLE IF NOT EXISTS anime_download( " \
                                                 "link TEXT NOT NULL," \
-                                                "message_id BIGINT NOT NULL)"
+                                                "flie_id BIGINT NOT NULL)"
+
+        self.__create_db_table_series = "CREATE TABLE IF NOT EXISTS series( " \
+                                        "link TEXT NOT NULL," \
+                                        "name TEXT NOT NUL)"
 
         self.__create_db_table_bot_settings = "CREATE TABLE IF NOT EXISTS bot_settings( " \
                                               "key VARCHAR(100) NOT NULL," \
@@ -71,6 +75,14 @@ class DataBase:
 
         self.__get_active_users = "select chat_id from settings"
 
+        self.__get_download_anime_file_id_by_link = 'select file_if form anime_download where link = %s'
+
+        self.__insert_downloaded_anime = 'insert into anime_download (link, file_id) values (%s, %s)'
+
+        self.__insert_series = 'insert into series (link, name) values (%s, %s)'
+
+        self.__get_series_name_by_link = 'select name form series where link = %s'
+
     def create_connection(self):
         return psycopg2.connect(
             # host='localhost',
@@ -109,6 +121,11 @@ class DataBase:
         with __my_db_connector:
             __cur = __my_db_connector.cursor()
             __cur.execute(self.__create_db_table_anime_download)
+            __cur.close()
+
+        with __my_db_connector:
+            __cur = __my_db_connector.cursor()
+            __cur.execute(self.__create_db_table_series)
             __cur.close()
 
         with __my_db_connector:
@@ -247,14 +264,14 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__update_bot_settings, key, value)
+            __con.execute(self.__update_bot_settings, (key, value))
             __my_db_connector.commit()
 
     def add_bot_setting(self, key, value):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__add_bot_settings, key, value)
+            __con.execute(self.__add_bot_settings, (key, value))
             __my_db_connector.commit()
 
     def get_active_users(self):
@@ -262,6 +279,40 @@ class DataBase:
         with __my_db_connector:
             __con = __my_db_connector.cursor()
             __con.execute(self.__get_active_users)
+            __my_db_connector.commit()
+            all = __con.fetchall()
+            __con.close()
+        return all
+
+    def get_anime_file_id_by_link(self, link):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__get_download_anime_file_id_by_link, link)
+            __my_db_connector.commit()
+            all = __con.fetchall()
+            __con.close()
+        return all
+
+    def insert_downloaded_anime(self, link, file_id):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__insert_downloaded_anime, (link, file_id))
+            __my_db_connector.commit()
+
+    def insert_series(self, link, name):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__insert_series, (link, name))
+            __my_db_connector.commit()
+
+    def get_series_name_by_link(self, link):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__get_series_name_by_link, link)
             __my_db_connector.commit()
             all = __con.fetchall()
             __con.close()
