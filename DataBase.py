@@ -69,6 +69,8 @@ class DataBase:
         self.__update_bot_settings = "UPDATE bot_settings SET value = %s " \
                                      "WHERE key = %s"
 
+        self.__get_active_users = "select chat_id from settings"
+
     def create_connection(self):
         return psycopg2.connect(
             # host='localhost',
@@ -254,4 +256,13 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__add_bot_settings, key, value)
             __my_db_connector.commit()
-            
+
+    def get_active_users(self):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__get_active_users)
+            __my_db_connector.commit()
+            all = __con.fetchall()
+            __con.close()
+        return all

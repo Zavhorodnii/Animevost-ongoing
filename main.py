@@ -7,6 +7,7 @@ import SecretInfo
 import Settings
 import DataBase
 import Add
+import BotUpdates
 
 from telegram.ext import Updater, ConversationHandler, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
@@ -115,6 +116,7 @@ class WatchingFilms:
 
 if __name__ == '__main__':
     watchingFilms = WatchingFilms()
+    update_bot = BotUpdates.BotUpdates()
     check_rss = CheckRss.CheckRss()
     check_rss.start_thread()
     watchingFilms.main()
