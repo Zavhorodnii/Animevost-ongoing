@@ -10,9 +10,6 @@ class BotSetting:
 
     def load_settings(self):
 
-        if BotSetting.__settings is None:
-            return
-
         db = DataBase.DataBase()
         settings = db.load_bot_settings()
         BotSetting.__settings = {}
@@ -21,6 +18,9 @@ class BotSetting:
             BotSetting.__settings[line[0]] = line[1]
 
     def get(self, key):
+        if BotSetting.__settings is None:
+            return ''
+
         if key in BotSetting.__settings:
             return BotSetting.__settings[key]
 
