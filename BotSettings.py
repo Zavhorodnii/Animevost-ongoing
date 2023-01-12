@@ -10,7 +10,7 @@ class BotSetting:
 
     def load_settings(self):
 
-        if BotSetting.__settings is None:
+        if BotSetting.__settings is not None:
             return
 
         db = DataBase.DataBase()
