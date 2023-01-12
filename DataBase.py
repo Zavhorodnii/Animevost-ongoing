@@ -288,7 +288,7 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__get_download_anime_file_id_by_link, link)
+            __con.execute(self.__get_download_anime_file_id_by_link, (str(link)))
             __my_db_connector.commit()
             all = __con.fetchall()
             __con.close()
@@ -298,21 +298,21 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__insert_downloaded_anime, (link, file_id))
+            __con.execute(self.__insert_downloaded_anime, (str(link), file_id))
             __my_db_connector.commit()
 
     def insert_series(self, link, name):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__insert_series, (link, name))
+            __con.execute(self.__insert_series, (str(link), name))
             __my_db_connector.commit()
 
     def get_series_name_by_link(self, link):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__get_series_name_by_link, link)
+            __con.execute(self.__get_series_name_by_link, (str(link)))
             __my_db_connector.commit()
             all = __con.fetchall()
             __con.close()
