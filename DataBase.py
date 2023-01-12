@@ -75,13 +75,13 @@ class DataBase:
 
         self.__get_active_users = "select chat_id from settings"
 
-        self.__get_download_anime_file_id_by_link = 'select file_if form anime_download where link = %s'
+        self.__get_download_anime_file_id_by_link = 'select file_id from anime_download where link = %s'
 
         self.__insert_downloaded_anime = 'insert into anime_download (link, file_id) values (%s, %s)'
 
         self.__insert_series = 'insert into series (link, name) values (%s, %s)'
 
-        self.__get_series_name_by_link = 'select name form series where link = %s'
+        self.__get_series_name_by_link = 'select name from series where link = %s'
 
     def create_connection(self):
         return psycopg2.connect(
