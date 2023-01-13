@@ -121,7 +121,7 @@ class DownloadTask:
         for user in self.__users:
 
             if self.__file is None:
-                message = context.bot.send_document(chat_id=user, document=self.__title)
+                message = context.bot.send_document(chat_id=user, document=open(self.__title, 'rb'))
                 self.__file = message.document.file_id
                 db = DataBase.DataBase()
                 db.insert_downloaded_anime(self.__link, self.__file)
