@@ -85,7 +85,7 @@ class DownloadTask:
         if not self.get_file_id():
             with requests.get('https://static.trn.su/' + self.__link + '.mp4', stream=True) as r:
                 r.raise_for_status()
-                with open(self.__title + '.mp4', 'wb') as f:
+                with open(self.__title, 'wb') as f:
                     for chunk in r.iter_content(chunk_size=8192):
                         f.write(chunk)
 
@@ -120,7 +120,7 @@ class DownloadTask:
         for user in self.__users:
 
             if self.__file is None:
-                message = context.bot.send_document(chat_id=user, document=self.__title + '.mp4')
+                message = context.bot.send_document(chat_id=user, document=self.__title)
                 self.__file = message.document.file_id
                 db = DataBase.DataBase()
                 db.insert_downloaded_anime(self.__link, self.__file)
