@@ -5,6 +5,7 @@ import requests
 from threading import Thread
 import telegram
 from telegram.ext import Updater
+import os
 
 
 def parse_last(link):
@@ -124,6 +125,7 @@ class DownloadTask:
                 self.__file = message.document.file_id
                 db = DataBase.DataBase()
                 db.insert_downloaded_anime(self.__link, self.__file)
+                os.remove(self.__title)
             else:
                 message = context.bot.send_document(chat_id=user, document=self.__file)
 
