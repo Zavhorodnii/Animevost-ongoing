@@ -54,10 +54,10 @@ def parse_all(link):
     }
 
 
-def get(item, user):
-    if item['link'] not in TaskManager.tasks:
-        TaskManager.tasks[item['link']] = DownloadTask(item)
-    TaskManager.tasks[item['link']].add_user(user)
+def get(link, user):
+    if link not in TaskManager.tasks:
+        TaskManager.tasks[link] = DownloadTask(link)
+    TaskManager.tasks[link].add_user(user)
 
 
 class TaskManager:
