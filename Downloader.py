@@ -83,10 +83,6 @@ class DownloadTask:
     def run_task(self):
 
         if not self.get_file_id():
-
-            db = DataBase.DataBase()
-            db.insert_series(self.__link, self.__title)
-
             with requests.get('https://static.trn.su/' + self.__link + '.mp4', stream=True) as r:
                 r.raise_for_status()
                 with open(self.__title + '.mp4', 'wb') as f:
