@@ -152,6 +152,7 @@ class DataBase:
                                                 str(films_in_one_pagination),
                                                 ))
             __my_db_connector.commit()
+            __con.close()
 
     def update_settings(self, films_in_one_pagination, chat_id):
         in_table = self.select_chat_settings(chat_id)
@@ -164,6 +165,7 @@ class DataBase:
             __con.execute(self.__update_settings, (str(films_in_one_pagination),
                                                    str(chat_id)))
             __my_db_connector.commit()
+            __con.close()
 
     def select_chat_settings(self, chat_id):
         __my_db_connector = self.create_connection()
@@ -180,6 +182,7 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__add_anime_to_db, (chat_id, link))
             __my_db_connector.commit()
+            __con.close()
 
     def settings_update_mess_ids(self, chat_id, __message_pagination_ids, __pagination_pages):
         in_table = self.select_chat_settings(chat_id)
@@ -192,6 +195,7 @@ class DataBase:
             __con.execute(self.__settings_update_mess_ids, (str(__message_pagination_ids), str(__pagination_pages),
                                                             str(chat_id)))
             __my_db_connector.commit()
+            __con.close()
 
     def get_anime_list(self, chat_id, offset, __anime_in_one_pagination):
         __my_db_connector = self.create_connection()
@@ -217,6 +221,7 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__delete_anime_from_links, (str(chat_id), str(anime_id),))
             __my_db_connector.commit()
+            __con.close()
 
     def get_all_chat_with_anime(self, link):
         __my_db_connector = self.create_connection()
@@ -233,6 +238,7 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__update_last_anime, (str(last_anime), ))
             __my_db_connector.commit()
+            __con.close()
 
     def get_last_anime(self,):
         __my_db_connector = self.create_connection()
@@ -249,6 +255,7 @@ class DataBase:
             __con = __my_db_connector.cursor()
             __con.execute(self.__clear_last_anime,)
             __my_db_connector.commit()
+            __con.close()
 
     def load_bot_settings(self):
         __my_db_connector = self.create_connection()
@@ -264,15 +271,17 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__update_bot_settings, (key, value))
+            __con.execute(self.__update_bot_settings, (key, value, ))
             __my_db_connector.commit()
+            __con.close()
 
     def add_bot_setting(self, key, value):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__add_bot_settings, (key, value))
+            __con.execute(self.__add_bot_settings, (key, value, ))
             __my_db_connector.commit()
+            __con.close()
 
     def get_active_users(self):
         __my_db_connector = self.create_connection()
@@ -288,7 +297,7 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__get_download_anime_file_id_by_link, (str(link)))
+            __con.execute(self.__get_download_anime_file_id_by_link, (str(link), ))
             __my_db_connector.commit()
             all = __con.fetchall()
             __con.close()
@@ -298,21 +307,23 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__insert_downloaded_anime, (str(link), file_id))
+            __con.execute(self.__insert_downloaded_anime, (str(link), file_id, ))
             __my_db_connector.commit()
+            __con.close()
 
     def insert_series(self, link, name):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__insert_series, (str(link), name))
+            __con.execute(self.__insert_series, (str(link), name, ))
             __my_db_connector.commit()
+            __con.close()
 
     def get_series_name_by_link(self, link):
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__get_series_name_by_link, (str(link)))
+            __con.execute(self.__get_series_name_by_link, (str(link), ))
             __my_db_connector.commit()
             all = __con.fetchall()
             __con.close()
