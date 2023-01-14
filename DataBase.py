@@ -83,7 +83,7 @@ class DataBase:
 
         self.__get_series_name_by_link = 'select name from series where link = %s'
 
-        self.__get_anime_link_by_id = "select link from links where  link = %s"
+        self.__get_anime_link_by_id = "select link from links where id = %s"
 
     def create_connection(self):
         return psycopg2.connect(

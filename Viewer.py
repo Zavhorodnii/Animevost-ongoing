@@ -7,13 +7,9 @@ def get_all(update, context):
     link_id = update.callback_query.data.split('/')[1]
     chat_id = update.effective_chat.id
 
-    print(link_id)
-
     links = DataBase.DataBase().get_anime_link_by_id(link_id)
     if len(links) == 0:
         return
-
-    print(len(links))
 
     serieses = Downloader.parse_all(links[0][0])
 
