@@ -81,7 +81,8 @@ class CheckRss:
                     dlink = Downloader.parse_last(elem['link'])
 
                     keyboard = [[
-                        InlineKeyboardButton('Скачать - ' + dlink['title'], url=dlink['link']),
+                        InlineKeyboardButton('Скачать 480p - ' + dlink['title'], url=dlink['link']),
+                        InlineKeyboardButton('Скачать 720p - ' + dlink['title'], url=dlink['link720']),
                     ], ]
 
                     for chat_id in all_chats:
