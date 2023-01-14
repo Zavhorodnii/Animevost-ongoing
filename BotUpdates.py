@@ -6,8 +6,8 @@ from telegram.ext import Updater
 
 
 class BotUpdates:
-    version = '1.1.0'
-    description = ''
+    version = '1.2.0'
+    description = 'Обновление до версии 1.2.0:\n- В уведомлении о новой серии доступна ссылка на скачивание файла в качестве 720р'
 
     def __init__(self):
         updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
