@@ -26,7 +26,7 @@ def get_all(update, context):
         line = []
         i = 0
         while i < 3 and index < size:
-            line.append(InlineKeyboardButton(items[index]['title'], url=items[index]['link']),)
+            line.append(InlineKeyboardButton(items[index]['title'], url=items[index]['link720']),)
             index = index + 1
             i = i + 1
         keyboard.append(line)
