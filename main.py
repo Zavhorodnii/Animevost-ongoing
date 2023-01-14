@@ -87,6 +87,7 @@ class WatchingFilms:
 
     def get_serieses(self, update, context):
         Viewer.get_all(update, context)
+        return ALL
 
     def main(self):
         updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
@@ -117,6 +118,7 @@ class WatchingFilms:
                     MessageHandler(Filters.regex('Добавить аниме'), self.add),
                     CallbackQueryHandler(self.delete_anime, pass_user_data=True, pattern="anime/"),
                     CallbackQueryHandler(self.show_pagination_page, pass_user_data=True, pattern="page/"),
+                    CallbackQueryHandler(self.get_serieses, pass_user_data=True, pattern="view/"),
                 ],
                 ADD_LINK: [
                     MessageHandler(Filters.regex('Отмена'), self.cancel_add),

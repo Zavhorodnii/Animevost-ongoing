@@ -19,11 +19,16 @@ def get_all(update, context):
 
     items = serieses['items']
 
-    for index in range(len(items)):
+    size = len(items)
+    index = 0
+
+    while index < size:
         line = []
-        for i in range(3):
+        i = 0
+        while i < 3 and index < size:
             line.append(InlineKeyboardButton(items[index]['title'], url=items[index]['link']),)
             index = index + 1
+            i = i + 1
         keyboard.append(line)
 
     message = context.bot.send_message(
