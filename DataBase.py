@@ -273,7 +273,7 @@ class DataBase:
         __my_db_connector = self.create_connection()
         with __my_db_connector:
             __con = __my_db_connector.cursor()
-            __con.execute(self.__update_bot_settings, (key, value, ))
+            __con.execute(self.__update_bot_settings, (value, key, ))
             __my_db_connector.commit()
             __con.close()
 
