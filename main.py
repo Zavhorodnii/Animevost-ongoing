@@ -74,6 +74,12 @@ class WatchingFilms:
         return ALL
 
     def download_anime(self, update, context):
+        """
+        @deprecated
+        :param update:
+        :param context:
+        :return:
+        """
         link = update.callback_query.data.split('/')[1]
         chat_id = update.effective_chat.id
         Downloader.get(link, chat_id)
@@ -93,7 +99,6 @@ class WatchingFilms:
                 MessageHandler(Filters.regex('Отмена'), self.cancel_add),
                 CallbackQueryHandler(self.delete_anime, pass_user_data=True, pattern="anime/"),
                 CallbackQueryHandler(self.show_pagination_page, pass_user_data=True, pattern="page/"),
-                CallbackQueryHandler(self.download_anime, pass_user_data=True, pattern="download/"),
             ],
             states={
                 SETTINGS_CHECK_PAGINATION: [

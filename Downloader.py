@@ -39,15 +39,13 @@ def parse_all(link):
         link = item[1].replace('\"', '')
         full_name = anime_title + name
 
+        link = 'https://static.trn.su/' + link + '.mp4'
+
         items.append({
             'link': link,
             'title': name,
             'full_title': full_name,
         })
-
-        name = db.get_series_name_by_link(link)
-        if len(name) == 0:
-            db.insert_series(link, full_name + '.mp4')
 
     return {
         'items': items,
@@ -56,17 +54,28 @@ def parse_all(link):
 
 
 def get(link, user):
+    """
+    @deprecated
+    :param link:
+    :param user:
+    :return:
+    """
     if link not in TaskManager.tasks:
         TaskManager.tasks[link] = DownloadTask(link)
     TaskManager.tasks[link].add_user(user)
 
 
 class TaskManager:
+    """
+    @deprecated
+    """
     tasks = {}
 
 
 class DownloadTask:
-
+    """
+    @deprecated
+    """
     def __init__(self, link):
         # ссылка на серию
         self.__link = link
