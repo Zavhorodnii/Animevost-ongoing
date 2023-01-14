@@ -1,21 +1,21 @@
 import DataBase
 import Downloader
-import SecretInfo
-import telegram
-from telegram.ext import Updater
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def get_all(link_id, chat_id):
+def get_all(update, context):
+    link_id = update.callback_query.data.split('/')[1]
+    chat_id = update.effective_chat.id
+
+    print(link_id)
+
     links = DataBase.DataBase().get_anime_link_by_id(link_id)
     if len(links) == 0:
         return
 
-    serieses = Downloader.parse_all(links[0][0])
+    print(len(links))
 
-    updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
-    context = telegram.ext.callbackcontext.CallbackContext(dispatcher)
+    serieses = Downloader.parse_all(links[0][0])
 
     __clear_messages(chat_id, context)
 

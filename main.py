@@ -86,9 +86,7 @@ class WatchingFilms:
         Downloader.get(link, chat_id)
 
     def get_serieses(self, update, context):
-        link_id = update.callback_query.data.split('/')[1]
-        chat_id = update.effective_chat.id
-        Viewer.get_all(link_id, chat_id)
+        Viewer.get_all(update, context)
 
     def main(self):
         updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
