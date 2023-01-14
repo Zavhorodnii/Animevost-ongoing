@@ -34,6 +34,7 @@ class ShowAll:
         for item in paged_info:
             keyboard = [[
                 InlineKeyboardButton('Удалить', callback_data=f"anime/{item[0]}"),
+                InlineKeyboardButton('Скачать', callback_data=f"view/{item[0]}"),
             ], ]
             message = context.bot.send_message(
                 update.effective_chat.id,

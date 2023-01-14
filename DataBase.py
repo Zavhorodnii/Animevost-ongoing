@@ -83,6 +83,8 @@ class DataBase:
 
         self.__get_series_name_by_link = 'select name from series where link = %s'
 
+        self.__get_anime_link_by_id = "select link from links where  link = %s"
+
     def create_connection(self):
         return psycopg2.connect(
             # host='localhost',
@@ -324,6 +326,16 @@ class DataBase:
         with __my_db_connector:
             __con = __my_db_connector.cursor()
             __con.execute(self.__get_series_name_by_link, (str(link), ))
+            __my_db_connector.commit()
+            all = __con.fetchall()
+            __con.close()
+        return all
+
+    def get_anime_link_by_id(self, link_id):
+        __my_db_connector = self.create_connection()
+        with __my_db_connector:
+            __con = __my_db_connector.cursor()
+            __con.execute(self.__get_anime_link_by_id, (str(link_id), ))
             __my_db_connector.commit()
             all = __con.fetchall()
             __con.close()

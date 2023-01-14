@@ -9,6 +9,7 @@ import DataBase
 import Add
 import BotUpdates
 import Downloader
+import Viewer
 
 from telegram.ext import Updater, ConversationHandler, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
@@ -84,6 +85,11 @@ class WatchingFilms:
         chat_id = update.effective_chat.id
         Downloader.get(link, chat_id)
 
+    def get_serieses(self, update, context):
+        link_id = update.callback_query.data.split('/')[1]
+        chat_id = update.effective_chat.id
+        Viewer.get_all(link_id, chat_id)
+
     def main(self):
         updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
         dispatcher = updater.dispatcher
@@ -99,6 +105,7 @@ class WatchingFilms:
                 MessageHandler(Filters.regex('Отмена'), self.cancel_add),
                 CallbackQueryHandler(self.delete_anime, pass_user_data=True, pattern="anime/"),
                 CallbackQueryHandler(self.show_pagination_page, pass_user_data=True, pattern="page/"),
+                CallbackQueryHandler(self.get_serieses, pass_user_data=True, pattern="view/"),
             ],
             states={
                 SETTINGS_CHECK_PAGINATION: [
