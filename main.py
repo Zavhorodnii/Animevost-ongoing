@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-ALL, ADD_LINK, SETTINGS_CHECK_PAGINATION = range(3)
+ALL, ADD_LINK, SETTINGS_CHECK_PAGINATION, VIEWER = range(4)
 
 
 class WatchingFilms:
@@ -87,7 +87,7 @@ class WatchingFilms:
 
     def get_serieses(self, update, context):
         Viewer.get_all(update, context)
-        return ALL
+        return VIEWER
 
     def main(self):
         updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
@@ -123,6 +123,12 @@ class WatchingFilms:
                 ADD_LINK: [
                     MessageHandler(Filters.regex('Отмена'), self.cancel_add),
                     MessageHandler(Filters.text, self.enter_link),
+                ],
+                VIEWER: [
+                    CommandHandler('start', self.second_start),
+                    MessageHandler(Filters.regex('Просмотреть список'), self.show_all),
+                    MessageHandler(Filters.regex('Добавить аниме'), self.add),
+                    CallbackQueryHandler(self.get_serieses, pass_user_data=True, pattern="view/"),
                 ]
             },
             fallbacks=[],
