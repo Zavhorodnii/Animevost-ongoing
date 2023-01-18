@@ -39,8 +39,8 @@ def parse_all(link):
         link = item[1].replace('\"', '')
         full_name = anime_title + name
 
-        link = 'https://static.trn.su/' + link + '.mp4'
         link720 = 'https://hd.trn.su/720/' + link + '.mp4'
+        link = 'https://static.trn.su/' + link + '.mp4'
 
         items.append({
             'link': link,
