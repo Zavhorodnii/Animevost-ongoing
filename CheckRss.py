@@ -16,9 +16,6 @@ import Downloader
 
 class CheckRss:
     def __init__(self,):
-        updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
-        self.dispatcher = updater.dispatcher
-        self.context = telegram.ext.callbackcontext.CallbackContext(self.dispatcher)
         self.rss_url = 'https://animevost.org/rss.xml'
         self.anime_rss_last_anime = ''
         self.__database = DataBase.DataBase()
@@ -37,6 +34,16 @@ class CheckRss:
 
     def chek_rss(self):
         while True:
+            try:
+                updater = Updater(SecretInfo.TELEGRAM_HTTP_API_TOKEN, use_context=True)
+                dispatcher = updater.dispatcher
+                context = telegram.ext.callbackcontext.CallbackContext(dispatcher)
+            except Exception as exc:
+                print('In RSS Errors')
+                print(exc)
+                sleep(10)
+                continue
+
             try:
                 response = requests.get(
                     url=self.rss_url,
@@ -87,7 +94,7 @@ class CheckRss:
 
                     for chat_id in all_chats:
                         try:
-                            message = self.context.bot.send_message(
+                            message = context.bot.send_message(
                                 chat_id[0],
                                 text=F"Новый эпизод\n\n{elem['title']}\n\n{elem['link']}",
                                 reply_markup=InlineKeyboardMarkup(keyboard)
