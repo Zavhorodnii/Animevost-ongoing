@@ -30,3 +30,4 @@ class BotUpdates:
                     print(exe)
 
             settings.update("version", BotUpdates.version)
+        updater.stop();

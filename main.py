@@ -96,6 +96,9 @@ class WatchingFilms:
             dispatcher = updater.dispatcher
             self.dispatcher = dispatcher
 
+            check_rss = CheckRss.CheckRss(updater)
+            check_rss.start_thread()
+
             # self.update_restart()
 
             control_handler = ConversationHandler(
@@ -149,6 +152,4 @@ class WatchingFilms:
 if __name__ == '__main__':
     watchingFilms = WatchingFilms()
     update_bot = BotUpdates.BotUpdates()
-    check_rss = CheckRss.CheckRss()
-    check_rss.start_thread()
     watchingFilms.main()
