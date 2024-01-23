@@ -106,5 +106,5 @@ class CheckRss:
                     if dict_data['rss']['channel']['item'][0]['link'] != self.anime_rss_last_anime:
                         self.update_last_anime(dict_data, 0)
                         self.__database.update_last_anime(self.anime_rss_last_anime)
-
+            updater.stop()
             sleep(300)
